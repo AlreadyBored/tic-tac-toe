@@ -1,11 +1,12 @@
 <template>
-  <div>
-  <div>
+<div>
+  <div v-if='gameStarted'>
     {{currentSlide}}
   </div>
-  <button class='btn btn-primary'
-          @click='slideshow'>AAA</button>
-  </div>
+  <button @click="slideshow"
+          v-else
+          class="btn btn-primary">Start game</button>
+</div>
 </template>
 
 <script>
@@ -13,37 +14,37 @@ export default {
   data() {
     return {
       slides: [
-        'VuePractice repository',
-        'In collaboration with ACME Corp.',
-        'PRESENTS',
-        'TIC-TAC-TOE!'
+        'HELLO',
+        'WELCOME',
+        'TO',
+        'TIC',
+        'TAC',
+        'TOE!'      
       ],
-      currentSlide: '',
-      slidesCounter: 0
+      frequency: 1000,
+      counter: 0,
+      gameStarted: false
     }
   },
   methods: {
-    changeSlide() {
-      this.currentSlide = this.slides[this.slidesCounter]
-    },
-    promiseRecursiveSetTimeout() {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          resolve();
-        }, 2000);
-      });      
-    },
     slideshow() {
-      this.promiseRecursiveSetTimeout()
-      .then()
-      .then()
-      .then()
-      .then()
+      this.gameStarted = true;
+      const self = this
+      let timer = setTimeout(function tick() {
+        if(self.counter >= self.slides.length) return;
+        if(self.counter == self.slides.length - 4) self.frequency /= 2;
+        self.counter++;
+        timer = setTimeout(tick, self.frequency)
+      }, self.frequency);
+    }
+  },
+  computed: {
+    currentSlide() {
+      return this.slides[this.counter];
     }
   }
 }
 </script>
 
 <style>
-
 </style>

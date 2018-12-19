@@ -5,7 +5,7 @@ Vue.use(Vuex);
 
 import Field from './modules/field.js';
 
-export const store = new Vuex.store({
+export const store = new Vuex.Store({
     modules: {
         Field
     },
