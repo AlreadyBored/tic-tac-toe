@@ -1,7 +1,7 @@
 export default {
     namespaced: true,
     state: {
-        menuParts: [
+        options: [
             {
                 value: 'START',
                 id: 1
@@ -18,8 +18,8 @@ export default {
         ]
     },
     getters: {
-        menuParts() {
-            return state.menuParts;
+        options(state) {
+            return state.options;
         }
     },
     mutations: {

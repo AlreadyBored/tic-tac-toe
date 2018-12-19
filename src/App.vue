@@ -1,15 +1,18 @@
 <template>
   <div id="app">
     <Intro></Intro>
+    <Menu></Menu>
   </div>
 </template>
 
 <script>
 import Intro from './components/Intro.vue';
+import Menu from './components/Menu.vue';
 export default {
   name: 'app',
   components: {
-    Intro
+    Intro,
+    Menu
   }
 }
 </script>
