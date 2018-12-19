@@ -1,13 +1,13 @@
-/* import Vue from 'vue';
+import Vue from 'vue';
 import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
-import Field from './modules/field.js';
+import menu from './modules/menu.js';
 
 export const store = new Vuex.Store({
     modules: {
-        Field
+        menu
     },
     strict: process.env.NODE_ENV !== 'production'
-}); */
+});
