@@ -1,4 +1,4 @@
-import Vue from 'vue';
+/* import Vue from 'vue';
 import Vuex from 'vuex';
 
 Vue.use(Vuex);
@@ -10,4 +10,4 @@ export const store = new Vuex.store({
         Field
     },
     strict: process.env.NODE_ENV !== 'production'
-});
+}); */

@@ -3,8 +3,8 @@ import App from './App.vue'
 
 Vue.config.productionTip = false
 
-import {store} from './store';
-import {router} from './routes.js';
+/* import {store} from './store';
+import {router} from './routes.js'; */
 
 
 
@@ -12,6 +12,6 @@ import {router} from './routes.js';
 
 new Vue({
   render: h => h(App),
-  store,
-  router
+/*   store,
+  router */
 }).$mount('#app')
