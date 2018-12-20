@@ -6,7 +6,10 @@ export default {
             [null, null, null],
             [null, null, null]
         ],
-        currentState: 'dasdas',
+        winConditions: [
+            
+        ],
+        currentState: [],
         time: 0,
         chosenSymbol: null,
         xTurns: null
