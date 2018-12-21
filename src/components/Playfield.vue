@@ -61,7 +61,8 @@ export default {
   methods: {
     ...mapActions('playfield', {
       gameStarted: 'gameStarted',
-      symbolSent: 'symbolSent'
+      symbolSent: 'symbolSent',
+      turnFinished: 'turnFinished'
     }),
     chooseSide(e) {
       const target = e.target;
@@ -88,7 +89,8 @@ export default {
         cell,
         chosenSymbol: this.chosenSymbol
       });
-      this.switchSymbol();
+      this.turnFinished(this.chosenSymbol);
+      this.switchSymbol();      
     } 
   }
 };
