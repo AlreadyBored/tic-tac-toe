@@ -6,7 +6,8 @@
             :key="`r${indexRow}`">
           <td v-for="(cell, indexCell) in row"
               @click='drawSymbol(indexRow, indexCell)' 
-              :key="`c${indexCell}`">
+              :key="`c${indexCell}`"
+              class='my-cell'>
               {{figure(indexRow, indexCell)}}
               </td>
         </tr>
@@ -100,6 +101,10 @@ export default {
 .playfield {
   cursor: pointer;
   user-select: none;
+}
+.my-cell {
+  height: 90px;
+  width: 60px;
 }
 .symbol-cross {
   /* display: block; */

@@ -54,22 +54,14 @@ export default {
             return state.currentState[adress.row][adress.cell] === null ?
             false : true;
         },
-        transformedCondition: state => condition => {
-            const currentState = state.getters.currentState,
+        transformedCondition: getters => params => {
+            const currentState = getters.currentState,
             boolCondition = [
-                currentState[condition[0]][condition[1]],
-                currentState[condition[2]][condition[3]],
-                currentState[condition[4]][condition[5]]
+                currentState[params[0]][params[1]],
+                currentState[params[2]][params[3]],
+                currentState[params[4]][params[5]]
             ];
-            let excludeFlag;
-            let 
-            for(let key of boolCondition) {
-                const res = 0;
-                if()
-            }
-            return {
-                
-            }
+            return boolCondition;
         }
     },
     mutations: {
@@ -88,6 +80,9 @@ export default {
         },
         countTurn(state) {
             state.turn++;
+        },
+        deleteDeadlock(state, index) {
+            state.actualWinConditions.splice(index, 1);
         }
     },
     actions: {
@@ -122,17 +117,38 @@ export default {
         checkWinConditions(store, symbol) {
             const conditions = store.getters.actualWinConditions;
             if(symbol === 'X') {
-                for(let i = 0; i < conditions; i++) {
+                for(let i = 0; i < conditions.length; i++) {
+                    const bool = store.getters.transformedCondition(conditions[i]);
+                    if(bool.every(x => x === true)) {
+                        store.dispatch('gameFinished');
+                    } 
+                    if(bool.some(x => x === true) && bool.some (x => x === false)) {
+                        store.commit('deleteDeadlock', i);
+                    }
+                    
+                }
+            }
+            if(symbol === 'O') {
+                for(let i = 0; i < conditions.length; i++) {
+                    const bool = store.getters.transformedCondition(conditions[i]);
+                    if(bool.every(x => x === false)) {
+                        store.dispatch('gameFinished');
+                    } 
+                    if(bool.some(x => x === true) && bool.some (x => x === false)) {
+                        store.commit('deleteDeadlock', i);
+                    }
                     
                 }
             }
         },
         turnFinished(store, symbol) {
-            
-            if(store.getters.turn > 3) {
+            if(store.getters.turn >= 4) {
                 store.dispatch('checkWinConditions', symbol);
             }
             store.commit('countTurn');
+        },
+        gameFinished() {
+            alert('GAME ENDED!')
         }
     }
 };
