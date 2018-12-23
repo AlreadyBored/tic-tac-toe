@@ -32,11 +32,15 @@ export default {
         currentState: null,
         time: 0,
         turn: 0,
-        sideChosen: false
+        sideChosen: false,
+        winner: null
     },
     getters: {
         turn(state) {
             return state.turn;
+        },
+        winner(state) {
+            return state.winner;
         },
         currentState(state) {
             return state.currentState;
@@ -83,6 +87,9 @@ export default {
         },
         deleteDeadlock(state, index) {
             state.actualWinConditions.splice(index, 1);
+        },
+        setWinner(state, winner) {
+            state.winner = winner;
         }
     },
     actions: {
@@ -120,7 +127,7 @@ export default {
                 for(let i = 0; i < conditions.length; i++) {
                     const bool = store.getters.transformedCondition(conditions[i]);
                     if(bool.every(x => x === true)) {
-                        store.dispatch('gameFinished');
+                        store.dispatch('gameFinished', 'CROSSES');
                     } 
                     if(bool.some(x => x === true) && bool.some (x => x === false)) {
                         store.commit('deleteDeadlock', i);
@@ -132,7 +139,7 @@ export default {
                 for(let i = 0; i < conditions.length; i++) {
                     const bool = store.getters.transformedCondition(conditions[i]);
                     if(bool.every(x => x === false)) {
-                        store.dispatch('gameFinished');
+                        store.dispatch('gameFinished', 'NOUGHTS');
                     } 
                     if(bool.some(x => x === true) && bool.some (x => x === false)) {
                         store.commit('deleteDeadlock', i);
@@ -147,8 +154,10 @@ export default {
             }
             store.commit('countTurn');
         },
-        gameFinished() {
-            alert('GAME ENDED!')
+        gameFinished(store, winner) {
+            alert('GAME ENDED!');
+            store.commit('setWinner', winner);
+            
         }
     }
 };

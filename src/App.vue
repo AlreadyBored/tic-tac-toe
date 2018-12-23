@@ -3,20 +3,24 @@
     <Intro></Intro>
     <Menu></Menu>
     <Playfield></Playfield>
+    <Outro></Outro>
   </div>
 </template>
 
 <script>
 import Intro from './components/Intro.vue';
+import Outro from './components/Outro.vue';
 import Menu from './components/Menu.vue';
 import Playfield from './components/Playfield.vue';
+
 
 export default {
   name: 'app',
   components: {
     Intro,
     Menu,
-    Playfield
+    Playfield,
+    Outro
   }
 }
 </script>
