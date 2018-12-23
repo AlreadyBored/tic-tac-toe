@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Timer></Timer>
     <table class='table table-bordered playfield' v-if='sideChosen'>
       <tbody>
         <tr v-for="(row, indexRow) in state" 
@@ -25,6 +26,7 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import Timer from './Timer.vue';
 
 export default {
   data() {
@@ -35,7 +37,6 @@ export default {
   computed: {
     ...mapGetters("playfield", {
       state: "currentState",
-      time: "time",
       sideChosen: 'sideChosen'
     }),
     figure(row, cell) {
@@ -62,6 +63,7 @@ export default {
   methods: {
     ...mapActions('playfield', {
       gameStarted: 'gameStarted',
+      sendSide: 'sideChosen',
       symbolSent: 'symbolSent',
       turnFinished: 'turnFinished'
     }),
@@ -74,11 +76,11 @@ export default {
       if(target.classList.contains('symbol-circle')) {
         this.chosenSymbol = 'O';
       }
-      this.startGame();
+      this.sendSide();
     },
-    startGame() {
+    /* startGame() {
       this.gameStarted();
-    },
+    }, */
     switchSymbol() {
       this.chosenSymbol === 'O' ? 
       this.chosenSymbol = 'X' :
@@ -93,6 +95,12 @@ export default {
       this.turnFinished(this.chosenSymbol);
       this.switchSymbol();      
     } 
+  },
+  mounted() {
+    this.gameStarted()
+  },
+  components: {
+    Timer
   }
 };
 </script>

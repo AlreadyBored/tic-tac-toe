@@ -4,6 +4,7 @@
     <Menu></Menu>
     <Playfield></Playfield>
     <Outro></Outro>
+    <Results></Results>
   </div>
 </template>
 
@@ -12,6 +13,7 @@ import Intro from './components/Intro.vue';
 import Outro from './components/Outro.vue';
 import Menu from './components/Menu.vue';
 import Playfield from './components/Playfield.vue';
+import Results from './components/Results.vue';
 
 
 export default {
@@ -20,7 +22,8 @@ export default {
     Intro,
     Menu,
     Playfield,
-    Outro
+    Outro,
+    Results
   }
 }
 </script>

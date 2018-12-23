@@ -39,6 +39,18 @@ export default {
         turn(state) {
             return state.turn;
         },
+        fieldIsFull(state) {
+            const cs = state.currentState,
+            resArr = [];
+            for(let i = 0; i < 3; i++) {
+                resArr.push(cs[i][0]);
+                resArr.push(cs[i][1]);
+                resArr.push(cs[i][2]);
+            }
+            return resArr.every(x => {
+                return x !== null;
+            });
+        },
         winner(state) {
             return state.winner;
         },
@@ -90,12 +102,14 @@ export default {
         },
         setWinner(state, winner) {
             state.winner = winner;
+        },
+        syncTime(state, time) {
+            state.time = time;
         }
     },
     actions: {
         gameStarted(store) {
             store.commit('startGame');
-            store.commit('chooseSide');
         },
         symbolSent(store, options) {
             if(store.getters.adressUsed({
@@ -118,7 +132,7 @@ export default {
                 break;
 
                 default:
-                throw new Error(`Wrong type of symbol was sent to acton! - ${options.chosenSymbol}|${options.row}|${options.cell}`);
+                throw new Error(`Wrong type of symbol was sent to action! - ${options.chosenSymbol}|${options.row}|${options.cell}`);
             }
         },
         checkWinConditions(store, symbol) {
@@ -132,7 +146,6 @@ export default {
                     if(bool.some(x => x === true) && bool.some (x => x === false)) {
                         store.commit('deleteDeadlock', i);
                     }
-                    
                 }
             }
             if(symbol === 'O') {
@@ -143,21 +156,31 @@ export default {
                     } 
                     if(bool.some(x => x === true) && bool.some (x => x === false)) {
                         store.commit('deleteDeadlock', i);
-                    }
-                    
+                    } 
                 }
+            }
+        },
+        checkForDraw(store) {
+            if(store.getters.fieldIsFull && (store.getters.winner === null)) {
+                store.dispatch('gameFinished', 'NO ONE');
             }
         },
         turnFinished(store, symbol) {
             if(store.getters.turn >= 4) {
                 store.dispatch('checkWinConditions', symbol);
             }
+            if(store.getters.turn >= 8) store.dispatch('checkForDraw');
             store.commit('countTurn');
         },
         gameFinished(store, winner) {
-            alert('GAME ENDED!');
             store.commit('setWinner', winner);
             
+        },
+        syncTime(store, time) {
+            store.commit('syncTime', time);
+        },
+        sideChosen(store) {
+            store.commit('chooseSide');
         }
     }
 };
