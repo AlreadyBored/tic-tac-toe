@@ -45,6 +45,11 @@ export default {
     endOfSlides() {
       return this.counter >= this.slides.length ? true: false;
     }
+  },
+  watch: {
+    endOfSlides() {
+      this.$router.push('/menu')
+    }
   }
 }
 </script>

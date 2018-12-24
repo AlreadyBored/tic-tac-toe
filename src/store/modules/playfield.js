@@ -24,7 +24,7 @@ export default {
             [0,0,1,0,2,0],
             [0,1,1,1,2,1],
             [2,0,2,1,2,2],
-            [2,0,2,1,2,2],
+            [0,2,1,2,2,2],
             [0,0,1,1,2,2],
             [2,0,1,1,0,2] 
         ],
@@ -40,16 +40,21 @@ export default {
             return state.turn;
         },
         fieldIsFull(state) {
-            const cs = state.currentState,
+            if(state.currentState !== null) {
+                const cs = state.currentState,
             resArr = [];
             for(let i = 0; i < 3; i++) {
-                resArr.push(cs[i][0]);
-                resArr.push(cs[i][1]);
-                resArr.push(cs[i][2]);
+                    resArr.push(cs[i][0]);
+                    resArr.push(cs[i][1]);
+                    resArr.push(cs[i][2]);
             }
             return resArr.every(x => {
                 return x !== null;
             });
+            } else {
+                return 'Not applicable';
+            }
+            
         },
         winner(state) {
             return state.winner;
@@ -135,33 +140,44 @@ export default {
                 throw new Error(`Wrong type of symbol was sent to action! - ${options.chosenSymbol}|${options.row}|${options.cell}`);
             }
         },
+        /* Action removes winning combinations that no longer lead to victory,
+        made for lowering calculations around checking winconditions.
+        In case of 3x3 field it doesn't lead to resources saving. */ 
+        deleteDeadlocks(store) {
+                store.getters.actualWinConditions.forEach(element => {
+                    const bool = store.getters.transformedCondition(element);
+                    if(bool.some(x => x === true) && bool.some (x => x === false)) {
+                        store.commit('deleteDeadlock', store.getters.actualWinConditions.indexOf(element));
+                    }
+                })
+        },
         checkWinConditions(store, symbol) {
             const conditions = store.getters.actualWinConditions;
             if(symbol === 'X') {
-                for(let i = 0; i < conditions.length; i++) {
-                    const bool = store.getters.transformedCondition(conditions[i]);
+                conditions.forEach(element => {
+                    const bool = store.getters.transformedCondition(element);
                     if(bool.every(x => x === true)) {
                         store.dispatch('gameFinished', 'CROSSES');
-                    } 
-                    if(bool.some(x => x === true) && bool.some (x => x === false)) {
-                        store.commit('deleteDeadlock', i);
                     }
-                }
+                    /* If clearing list of possible winning combinations needed */
+                    store.dispatch('deleteDeadlocks'); 
+                });
             }
             if(symbol === 'O') {
-                for(let i = 0; i < conditions.length; i++) {
-                    const bool = store.getters.transformedCondition(conditions[i]);
+                conditions.forEach(element => {
+                    const bool = store.getters.transformedCondition(element);
                     if(bool.every(x => x === false)) {
                         store.dispatch('gameFinished', 'NOUGHTS');
                     } 
-                    if(bool.some(x => x === true) && bool.some (x => x === false)) {
-                        store.commit('deleteDeadlock', i);
-                    } 
-                }
+                });
+                /* If clearing list of possible winning combinations needed */
+                store.dispatch('deleteDeadlocks');
             }
         },
+        /* Currently works in intellectual mode: game will be finished with DRAW result
+        if not all cells are filled but there's no more possible winning combinations */
         checkForDraw(store) {
-            if(store.getters.fieldIsFull && (store.getters.winner === null)) {
+            if((store.getters.fieldIsFull && (store.getters.winner === null)) || !store.getters.actualWinConditions.length) {
                 store.dispatch('gameFinished', 'NO ONE');
             }
         },
@@ -169,7 +185,7 @@ export default {
             if(store.getters.turn >= 4) {
                 store.dispatch('checkWinConditions', symbol);
             }
-            if(store.getters.turn >= 8) store.dispatch('checkForDraw');
+            if(store.getters.turn >= 7) store.dispatch('checkForDraw');
             store.commit('countTurn');
         },
         gameFinished(store, winner) {

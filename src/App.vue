@@ -1,38 +1,23 @@
 <template>
   <div id="app">
-    <Intro></Intro>
-    <Menu></Menu>
-    <Playfield></Playfield>
-    <Outro></Outro>
-    <Results></Results>
-    <Settings></Settings>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import Intro from './components/Intro.vue';
-import Outro from './components/Outro.vue';
-import Menu from './components/Menu.vue';
-import Playfield from './components/Playfield.vue';
-import Results from './components/Results.vue';
-import Settings from './components/Settings.vue';
+
 
 
 export default {
-  name: 'app',
-  components: {
-    Intro,
-    Menu,
-    Playfield,
-    Outro,
-    Results,
-    Settings
-  }
+mounted() {
+  this.$router.push('/intro');
+}
 }
 </script>
 
 <style>
 #app {
+  border: 2px solid black;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

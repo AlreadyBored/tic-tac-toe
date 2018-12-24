@@ -50,9 +50,12 @@ export default {
     }
   },
   watch: {
-    winner(value) {
-      this.slides[this.slides.indexOf('PLACEHOLDER')] = value;
+    endOfSlides() {
+      this.$router.push('/results');
     }
+  },
+  mounted() {
+    this.slides[this.slides.indexOf('PLACEHOLDER')] = this.winner;
   }
 }
 </script>

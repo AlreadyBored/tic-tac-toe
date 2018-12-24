@@ -28,7 +28,6 @@ export default {
   },
   computed: {
     ...mapGetters('playfield', {
-      timeStore: 'time',
       gameStarted: 'sideChosen',
       winner: 'winner'
     })
@@ -37,8 +36,8 @@ export default {
     gameStarted() {
       this.startTimer();
     },
-    winner() {
-      this.sendTime(this.time);
+    timeToSync() {
+      this.sendTime(this.time);   
       this.end = true;
     }
   }

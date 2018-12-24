@@ -4,14 +4,17 @@ export default {
         options: [
             {
                 value: 'START',
+                path: '/game',
                 id: 1
             },
             {
                 value: 'OPTIONS',
+                path: '/settings',
                 id: 2
             },
             {
                 value: 'RESTART',
+                path: '/intro',
                 id: 3
             }
 

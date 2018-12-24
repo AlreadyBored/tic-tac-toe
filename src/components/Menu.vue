@@ -3,7 +3,9 @@
     <ul class='menu-list'>
       <li v-for='option in menu'
          :key="option.id">
-         <Item :opt='option'></Item>
+         <router-link :to='option.path'>
+           <Item :opt='option'></Item>
+         </router-link>     
          </li>
     </ul>
   </div>

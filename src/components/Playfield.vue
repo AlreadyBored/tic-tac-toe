@@ -31,13 +31,15 @@ import Timer from './Timer.vue';
 export default {
   data() {
     return {
-      chosenSymbol: null
+      chosenSymbol: null,
+      timeToSync: false
     }
   },
   computed: {
     ...mapGetters("playfield", {
       state: "currentState",
-      sideChosen: 'sideChosen'
+      sideChosen: 'sideChosen',
+      winner: 'winner'
     }),
     figure(row, cell) {
       return (row, cell) => {
@@ -92,6 +94,13 @@ export default {
       this.turnFinished(this.chosenSymbol);
       this.switchSymbol();      
     } 
+  },
+  watch: {
+    winner() {
+      setTimeout(() => {
+        this.$router.push('/end');
+      });
+    }
   },
   mounted() {
     this.gameStarted()
