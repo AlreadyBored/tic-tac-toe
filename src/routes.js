@@ -10,7 +10,7 @@ import Playfield from './components/Playfield.vue';
 import Results from './components/Results.vue';
 import Settings from './components/Settings.vue';
 
-import {store} from './store';
+/* import {store} from './store'; */
 
 const routes = [
     {
