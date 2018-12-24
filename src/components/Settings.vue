@@ -1,6 +1,6 @@
 <template>
   <div>
-    
+    Settings screen
   </div>
 </template>
 

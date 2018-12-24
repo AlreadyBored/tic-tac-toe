@@ -78,9 +78,6 @@ export default {
       }
       this.sendSide();
     },
-    /* startGame() {
-      this.gameStarted();
-    }, */
     switchSymbol() {
       this.chosenSymbol === 'O' ? 
       this.chosenSymbol = 'X' :
@@ -115,7 +112,6 @@ export default {
   width: 60px;
 }
 .symbol-cross {
-  /* display: block; */
   cursor: pointer;
   text-align: left;
   font-size: 48px;
@@ -123,7 +119,6 @@ export default {
 }
 
 .symbol-circle {
-  /* display: block; */
   cursor: pointer;
   text-align: right;
   font-size: 48px;
