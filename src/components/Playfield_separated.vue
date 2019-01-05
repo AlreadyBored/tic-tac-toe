@@ -1,9 +1,12 @@
 <template>
   <div>
-    <Timer></Timer>
-    <table class='table table-bordered playfield' v-if='sideChosen'>
+    <template v-if='sideChosen'>
+    <Timer :time='time'
+           :end="endTimer"
+           @timer-tick='countTime'></Timer>
+    <table class='table table-bordered playfield'>
       <tbody>
-        <tr v-for="(row, indexRow) in state" 
+        <tr v-for="(row, indexRow) in currentState" 
             :key="`r${indexRow}`">
           <td v-for="(cell, indexCell) in row"
               @click='drawSymbol(indexRow, indexCell)' 
@@ -14,6 +17,7 @@
         </tr>
       </tbody>
     </table>
+    </template>
     <div v-if="!sideChosen"
          class='prompt-symbol' 
           @click="chooseSide"> 
@@ -32,24 +36,50 @@ export default {
   data() {
     return {
       chosenSymbol: null,
-      timeToSync: false,
+      endTimer: null,
       actualWinConditions: [],
+      /* actualWinConditions: [
+            [0,0,0,1,0,2],
+            [1,0,1,1,1,2],
+            [0,0,1,0,2,0],
+            [0,1,1,1,2,1],
+            [2,0,2,1,2,2],
+            [0,2,1,2,2,2],
+            [0,0,1,1,2,2],
+            [2,0,1,1,0,2] 
+      ], */
       currentState: null,
+      /* currentState: {
+            0: {
+                0: null,
+                1: null,
+                2: null
+            },
+            1: {
+                0: null,
+                1: null,
+                2: null
+            },
+            2: {
+                0: null,
+                1: null,
+                2: null
+            }
+        }, */
       time: 0,
       turn: 0,
-      sideChosen: false,
-      winner: null
+      sideChosen: false
     };
   },
   computed: {
     ...mapGetters("playfield", {
-      state: "currentState",
-      sideChosen: "sideChosen",
-      winner: "winner"
+      initialState: "initialState",
+      initialWinConditions: 'initialWinConditions',
+      winner: 'winner'
     }),
     figure(row, cell) {
       return (row, cell) => {
-        switch (this.state[row][cell]) {
+        switch (this.currentState[row][cell]) {
           case null:
             return "";
             break;
@@ -67,10 +97,10 @@ export default {
         }
       };
     },
-    fieldIsFull(state) {
-      if (state.currentState !== null) {
-        const cs = state.currentState,
-          resArr = [];
+    fieldIsFull() {
+      if (this.currentState !== null) {
+        const cs = this.currentState,
+        resArr = [];
         for (let i = 0; i < 3; i++) {
           resArr.push(cs[i][0]);
           resArr.push(cs[i][1]);
@@ -83,46 +113,43 @@ export default {
         return "Not applicable";
       }
     },
-    adressUsed: state => adress => {
-      return state.currentState[adress.row][adress.cell] === null
-        ? false
-        : true;
+    adressUsed() {
+      return adress => this.currentState[adress.row][adress.cell] === null ? false : true;
     },
-    transformedCondition: getters => params => {
-      const currentState = getters.currentState,
-        boolCondition = [
-          currentState[params[0]][params[1]],
-          currentState[params[2]][params[3]],
-          currentState[params[4]][params[5]]
+    transformedCondition() {
+     return params => {
+        const boolCondition = [
+         this.currentState[params[0]][params[1]],
+         this.currentState[params[2]][params[3]],
+         this.currentState[params[4]][params[5]]
         ];
       return boolCondition;
+      }
     }
   },
   methods: {
-    ...mapActions("playfield", {
-      gameStarted: "gameStarted",
-      sendSide: "sideChosen",
-      symbolSent: "symbolSent",
-      turnFinished: "turnFinished"
+    ...mapActions('playfield', {
+      gameFinished: 'gameFinished',
+      syncTime: 'syncTime'
     }),
-    startGame(state) {
-      state.currentState = state.initialState;
-      state.actualWinConditions = state.initialWinConditions;
+    countTime() {
+      this.time++;
     },
-    chooseSide(state) {
-      state.sideChosen = true;
+    startGame() {
+      this.currentState = JSON.parse(JSON.stringify(this.initialState));
+      this.actualWinConditions = JSON.parse(JSON.stringify(this.initialWinConditions));
     },
-    drawX(state, adress) {
-      state.currentState[adress.row][adress.cell] = true;
+    drawX(adress) {
+      this.currentState[adress.row][adress.cell] = true;
     },
-    drawO(state, adress) {
-      state.currentState[adress.row][adress.cell] = false;
+    drawO(adress) {
+      this.currentState[adress.row][adress.cell] = false;
     },
-    countTurn(state) {
-      state.turn++;
+    countTurn() {
+      this.turn++;
     },
-    deleteDeadlock(state, index) {
-      state.actualWinConditions.splice(index, 1);
+    deleteDeadlock(index) {
+      this.actualWinConditions.splice(index, 1);
     },
     chooseSide(e) {
       const target = e.target;
@@ -133,26 +160,24 @@ export default {
       if (target.classList.contains("symbol-circle")) {
         this.chosenSymbol = "O";
       }
-      this.sendSide();
+      this.sideChosen = true;
+      this.endTimer = false;
     },
-    symbolSent(store, options) {
-      if (
-        store.getters.adressUsed({
+    symbolSent(options) {
+      if (this.adressUsed({
           row: options.row,
           cell: options.cell
-        })
-      )
-        return;
-      switch (options.chosenSymbol) {
+        }))  return;
+      switch (this.chosenSymbol) {
         case "X":
-          store.commit("drawX", {
+          this.drawX({
             row: options.row,
             cell: options.cell
           });
           break;
 
         case "O":
-          store.commit("drawO", {
+          this.drawO({
             row: options.row,
             cell: options.cell
           });
@@ -160,7 +185,7 @@ export default {
 
         default:
           throw new Error(
-            `Wrong type of symbol was sent to action! - ${
+            `Wrong type of symbol was sent! - ${
               options.chosenSymbol
             }|${options.row}|${options.cell}`
           );
@@ -169,57 +194,51 @@ export default {
     /* Action removes winning combinations that no longer lead to victory,
         made for lowering calculations around checking winconditions.
         In case of 3x3 field it doesn't lead to resources saving. */
-
-    deleteDeadlocks(store) {
-      store.getters.actualWinConditions.forEach(element => {
-        const bool = store.getters.transformedCondition(element);
+    deleteDeadlocks() {
+     this.actualWinConditions.forEach(element => {
+        const bool = this.transformedCondition(element);
         if (bool.some(x => x === true) && bool.some(x => x === false)) {
-          store.commit(
-            "deleteDeadlock",
-            store.getters.actualWinConditions.indexOf(element)
-          );
+          this.deleteDeadlock(this.actualWinConditions.indexOf(element));
         }
       });
     },
-    checkWinConditions(store, symbol) {
-      const conditions = store.getters.actualWinConditions;
-      if (symbol === "X") {
+    checkWinConditions() {
+      const conditions = this.actualWinConditions;
+      if (this.chosenSymbol === "X") {
         conditions.forEach(element => {
-          const bool = store.getters.transformedCondition(element);
+          const bool = this.transformedCondition(element);
           if (bool.every(x => x === true)) {
-            store.dispatch("gameFinished", "CROSSES");
+            this.gameFinished("CROSSES");
           }
-          /* If clearing list of possible winning combinations needed */
-          store.dispatch("deleteDeadlocks");
+          /* If cleaning of list of possible winning combinations needed */
+          this.deleteDeadlocks();
         });
       }
-      if (symbol === "O") {
+      if (this.chosenSymbol === "O") {
         conditions.forEach(element => {
-          const bool = store.getters.transformedCondition(element);
+          const bool = this.transformedCondition(element);
           if (bool.every(x => x === false)) {
-            store.dispatch("gameFinished", "NOUGHTS");
+            this.gameFinished("NOUGHTS");
           }
+          /* If cleaning of list of possible winning combinations needed */
+          this.deleteDeadlocks();
         });
-        /* If clearing list of possible winning combinations needed */
-        store.dispatch("deleteDeadlocks");
       }
     },
     /* Currently works in intellectual mode: game will be finished with DRAW result
         if not all cells are filled but there's no more possible winning combinations */
-    checkForDraw(store) {
-      if (
-        (store.getters.fieldIsFull && store.getters.winner === null) ||
-        !store.getters.actualWinConditions.length
-      ) {
-        store.dispatch("gameFinished", "NO ONE");
+    checkForDraw() {
+      if ((this.fieldIsFull && this.winner === null) ||
+        !this.actualWinConditions.length) {
+        this.gameFinished("NO ONE");
       }
     },
-    turnFinished(store, symbol) {
-      if (store.getters.turn >= 4) {
-        store.dispatch("checkWinConditions", symbol);
+    turnFinished() {
+      if (this.turn >= 4) {
+        this.checkWinConditions();
       }
-      if (store.getters.turn >= 7) store.dispatch("checkForDraw");
-      store.commit("countTurn");
+      if (this.turn >= 7) this.checkForDraw();
+      this.countTurn();
     },
     switchSymbol() {
       this.chosenSymbol === "O"
@@ -229,22 +248,19 @@ export default {
     drawSymbol(row, cell) {
       this.symbolSent({
         row,
-        cell,
-        chosenSymbol: this.chosenSymbol
+        cell
       });
-      this.turnFinished(this.chosenSymbol);
+      this.turnFinished();
       this.switchSymbol();
     }
   },
   watch: {
     winner() {
-      setTimeout(() => {
         this.$router.push("/end");
-      });
     }
   },
-  mounted() {
-    this.gameStarted();
+  beforeMount() {
+    this.startGame();
   },
   components: {
     Timer

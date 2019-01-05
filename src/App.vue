@@ -11,9 +11,9 @@
 
 
 export default {
-mounted() {
-  this.$router.push('/intro');
-}
+  mounted() {
+    this.$router.push('/intro');
+  }
 }
 </script>
 

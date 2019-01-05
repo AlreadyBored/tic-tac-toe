@@ -37,7 +37,13 @@ export default {
         },
         time(state) {
             return state.time;
-        } 
+        },
+        initialState(state) {
+            return state.initialState;
+        },
+        initialWinConditions(state) {
+            return state.initialWinConditions;
+        }
     },
     mutations: {      
         syncTime(state, time) {
@@ -45,12 +51,11 @@ export default {
         },
         setWinner(state, winner) {
             state.winner = winner;
-          },
+        }
     },
     actions: {
         gameFinished(store, winner) {
             store.commit('setWinner', winner);
-            
         },
         syncTime(store, time) {
             store.commit('syncTime', time);

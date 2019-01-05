@@ -6,7 +6,7 @@ Vue.use(VueRouter);
 import Intro from './components/Intro.vue';
 import Outro from './components/Outro.vue';
 import Menu from './components/Menu.vue';
-import Playfield from './components/Playfield.vue';
+import Playfield from './components/Playfield_separated.vue';
 import Results from './components/Results.vue';
 import Settings from './components/Settings.vue';
 
