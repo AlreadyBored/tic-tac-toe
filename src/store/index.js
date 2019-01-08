@@ -15,6 +15,5 @@ export const store = new Vuex.Store({
         settings,
         state
     },
-    /* strict: false */
     strict: process.env.NODE_ENV !== 'production'
 });

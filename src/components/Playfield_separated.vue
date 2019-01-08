@@ -38,34 +38,7 @@ export default {
       chosenSymbol: null,
       endTimer: null,
       actualWinConditions: [],
-      /* actualWinConditions: [
-            [0,0,0,1,0,2],
-            [1,0,1,1,1,2],
-            [0,0,1,0,2,0],
-            [0,1,1,1,2,1],
-            [2,0,2,1,2,2],
-            [0,2,1,2,2,2],
-            [0,0,1,1,2,2],
-            [2,0,1,1,0,2] 
-      ], */
       currentState: null,
-      /* currentState: {
-            0: {
-                0: null,
-                1: null,
-                2: null
-            },
-            1: {
-                0: null,
-                1: null,
-                2: null
-            },
-            2: {
-                0: null,
-                1: null,
-                2: null
-            }
-        }, */
       time: 0,
       turn: 0,
       sideChosen: false
@@ -130,7 +103,6 @@ export default {
   methods: {
     ...mapActions('playfield', {
       gameFinished: 'gameFinished',
-      syncTime: 'syncTime'
     }),
     countTime() {
       this.time++;
@@ -141,9 +113,13 @@ export default {
     },
     drawX(adress) {
       this.currentState[adress.row][adress.cell] = true;
+      this.countTurn();
+      this.switchSymbol();
     },
     drawO(adress) {
       this.currentState[adress.row][adress.cell] = false;
+      this.countTurn();
+      this.switchSymbol();      
     },
     countTurn() {
       this.turn++;
@@ -202,27 +178,37 @@ export default {
         }
       });
     },
+    /* symbol O - seeking for true, X - seeking for false, values reversed
+    because symbol switches after previous succesful draw*/
     checkWinConditions() {
       const conditions = this.actualWinConditions;
-      if (this.chosenSymbol === "X") {
-        conditions.forEach(element => {
-          const bool = this.transformedCondition(element);
-          if (bool.every(x => x === true)) {
-            this.gameFinished("CROSSES");
-          }
-          /* If cleaning of list of possible winning combinations needed */
-          this.deleteDeadlocks();
-        });
-      }
       if (this.chosenSymbol === "O") {
         conditions.forEach(element => {
           const bool = this.transformedCondition(element);
-          if (bool.every(x => x === false)) {
-            this.gameFinished("NOUGHTS");
+          if (bool.every(x => x === true)) {
+            this.gameFinished({
+              winner: 'CROSSES',
+              time: this.time,
+              turns: this.turn
+            });
           }
-          /* If cleaning of list of possible winning combinations needed */
-          this.deleteDeadlocks();
         });
+        /* If cleaning of list of possible winning combinations needed */
+        this.deleteDeadlocks();
+      }
+      if (this.chosenSymbol === "X") {
+        conditions.forEach(element => {
+          const bool = this.transformedCondition(element);
+          if (bool.every(x => x === false)) {
+            this.gameFinished( {
+              winner: 'NOUGHTS',
+              time: this.time,
+              turns: this.turn
+            });
+          }
+        });
+        /* If cleaning of list of possible winning combinations needed */
+        this.deleteDeadlocks();
       }
     },
     /* Currently works in intellectual mode: game will be finished with DRAW result
@@ -230,15 +216,16 @@ export default {
     checkForDraw() {
       if ((this.fieldIsFull && this.winner === null) ||
         !this.actualWinConditions.length) {
-        this.gameFinished("NO ONE");
+        this.gameFinished( {
+          winner: 'NO ONE',
+          time: this.time,
+          turns: this.turn
+        });
       }
     },
     turnFinished() {
-      if (this.turn >= 4) {
-        this.checkWinConditions();
-      }
+      if (this.turn >= 3) this.checkWinConditions();
       if (this.turn >= 7) this.checkForDraw();
-      this.countTurn();
     },
     switchSymbol() {
       this.chosenSymbol === "O"
@@ -251,12 +238,14 @@ export default {
         cell
       });
       this.turnFinished();
-      this.switchSymbol();
     }
   },
   watch: {
     winner() {
-        this.$router.push("/end");
+        this.endTimer = true;
+        setTimeout(() => {
+          this.$router.push("/end");
+        });        
     }
   },
   beforeMount() {

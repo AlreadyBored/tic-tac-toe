@@ -28,8 +28,10 @@ export default {
             [0,0,1,1,2,2],
             [2,0,1,1,0,2] 
         ],
-        time: 0,
-        winner: null
+        time: null,
+        winner: null,
+        turns: null,
+        players: []
     },
     getters: {     
         winner(state) {
@@ -43,22 +45,30 @@ export default {
         },
         initialWinConditions(state) {
             return state.initialWinConditions;
+        },
+        turns(state) {
+            return state.turns;
+        },
+        players() {
+            
         }
     },
     mutations: {      
-        syncTime(state, time) {
+        setTime(state, time) {
             state.time = time;
+        },
+        setTurns(state, turns) {
+            state.turns = turns;
         },
         setWinner(state, winner) {
             state.winner = winner;
         }
     },
     actions: {
-        gameFinished(store, winner) {
-            store.commit('setWinner', winner);
-        },
-        syncTime(store, time) {
-            store.commit('syncTime', time);
+        gameFinished(store, options) {
+            store.commit('setWinner', options.winner);
+            store.commit('setTime', options.time);
+            store.commit('setTurns', options.turns);
         }
     }
 };

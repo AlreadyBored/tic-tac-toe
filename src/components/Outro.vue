@@ -1,11 +1,6 @@
 <template>
 <div>
-  <div v-if='gameStarted'>
     {{currentSlide}}
-  </div>
-  <button @click="slideshow"
-          v-else
-          class="btn btn-primary">End game</button>
 </div>
 </template>
 
@@ -33,13 +28,11 @@ export default {
         'GAME!',      
       ],
       frequency: 1000,
-      counter: 0,
-      gameStarted: false
+      counter: 0
     }
   },
   methods: {
     slideshow() {
-      this.gameStarted = true;
       const self = this
       let timer = setTimeout(function tick() {
         if(self.endOfSlides) return;
@@ -56,6 +49,7 @@ export default {
   },
   mounted() {
     this.slides[this.slides.indexOf('PLACEHOLDER')] = this.winner;
+    this.slideshow();
   }
 }
 </script>

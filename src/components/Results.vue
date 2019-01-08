@@ -1,8 +1,8 @@
 <template>
   <div>
     <div>Winner: {{winner}}</div>
-    <div>Time spent: {{time }}</div>
-    <div>Turns made {{turns}}</div>
+    <div>Time spent: {{time}} seconds</div>
+    <div>Turns made: {{turns}}</div>
   </div>
 </template>
 
@@ -13,7 +13,7 @@ export default {
     ...mapGetters('playfield', {
       time: 'time',
       winner: 'winner',
-      turns: 'turn'
+      turns: 'turns'
     })
   }
 }
