@@ -9,6 +9,7 @@ import Menu from './components/Menu.vue';
 import Playfield from './components/Playfield_separated.vue';
 import Results from './components/Results.vue';
 import Settings from './components/Settings.vue';
+import Authorization from './components/Authorization.vue';
 
 /* import {store} from './store'; */
 
@@ -23,6 +24,11 @@ const routes = [
         name: 'intro',
         path: '/intro',
         component: Intro
+    },
+    {
+        name: 'authorization',
+        path: '/auth',
+        component: Authorization
     },
     {
         path: '/menu',

@@ -49,8 +49,8 @@ export default {
         turns(state) {
             return state.turns;
         },
-        players() {
-            
+        players(state) {
+           return state.players; 
         }
     },
     mutations: {      
@@ -62,13 +62,22 @@ export default {
         },
         setWinner(state, winner) {
             state.winner = winner;
+        },
+        addPlayer(state, player) {
+            state.players.push(player);
         }
     },
     actions: {
         gameFinished(store, options) {
-            store.commit('setWinner', options.winner);
+            let winner;
+            (options.turns - 1) % 2 === 0 ? winner = store.getters.players[0].name
+            : winner = store.getters.players[1].name
+            store.commit('setWinner', winner);
             store.commit('setTime', options.time);
             store.commit('setTurns', options.turns);
+        },
+        getPlayer(store, player) {
+            store.commit('addPlayer', player);
         }
     }
 };

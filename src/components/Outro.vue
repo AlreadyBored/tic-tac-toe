@@ -48,6 +48,7 @@ export default {
     }
   },
   mounted() {
+    
     this.slides[this.slides.indexOf('PLACEHOLDER')] = this.winner;
     this.slideshow();
   }

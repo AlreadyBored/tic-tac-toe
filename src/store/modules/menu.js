@@ -4,7 +4,7 @@ export default {
         options: [
             {
                 value: 'START',
-                path: '/game',
+                path: '/auth',
                 id: 1
             },
             {

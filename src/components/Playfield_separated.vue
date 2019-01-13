@@ -1,9 +1,16 @@
 <template>
   <div>
     <template v-if='sideChosen'>
-    <Timer :time='time'
+    <div>
+      <ul class='stats'>
+        <li><div>Turns made: {{turn}}</div></li>
+        <li><Timer :time='time'
            :end="endTimer"
-           @timer-tick='countTime'></Timer>
+           @timer-tick='countTime'></Timer></li>
+        <li><div>{{currentPlayer}} turns!</div></li>
+      </ul>
+      </div>
+    
     <table class='table table-bordered playfield'>
       <tbody>
         <tr v-for="(row, indexRow) in currentState" 
@@ -21,7 +28,7 @@
     <div v-if="!sideChosen"
          class='prompt-symbol' 
           @click="chooseSide"> 
-      Choose your side!
+      {{currentPlayer}} choose your side!
       <hr>
       <span class="symbol-cross">X</span><span class='symbol-circle'>O</span>
       </div>  
@@ -48,8 +55,16 @@ export default {
     ...mapGetters("playfield", {
       initialState: "initialState",
       initialWinConditions: 'initialWinConditions',
-      winner: 'winner'
+      winner: 'winner',
+      players: 'players'
     }),
+    currentPlayer() {
+      if(this.turn % 2 === 0) {
+        return this.players[0].name;
+      } else {
+        return this.players[1].name;
+      }
+    },
     figure(row, cell) {
       return (row, cell) => {
         switch (this.currentState[row][cell]) {
@@ -187,7 +202,6 @@ export default {
           const bool = this.transformedCondition(element);
           if (bool.every(x => x === true)) {
             this.gameFinished({
-              winner: 'CROSSES',
               time: this.time,
               turns: this.turn
             });
@@ -201,7 +215,7 @@ export default {
           const bool = this.transformedCondition(element);
           if (bool.every(x => x === false)) {
             this.gameFinished( {
-              winner: 'NOUGHTS',
+              winner: this.currentPlayer,
               time: this.time,
               turns: this.turn
             });
@@ -258,6 +272,10 @@ export default {
 </script>
 
 <style>
+
+.stats {
+  list-style: none;
+}
 .playfield {
   cursor: pointer;
   user-select: none;
