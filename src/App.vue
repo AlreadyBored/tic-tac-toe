@@ -20,25 +20,13 @@ export default {
 <style>
 #app {
   border: 2px solid black;
+  width: 60%;
+  height: 50%;
+  margin: 60px auto 0 auto;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
-.list-group-item {
-  transition: background 0.3s, color 0.3s;
-  cursor: pointer;
-}
-
-.list-group-item a {
-  text-decoration: none;
-}
-
-.list-group-item.active a {
-  color: inherit;
 }
 
 .slide-enter {

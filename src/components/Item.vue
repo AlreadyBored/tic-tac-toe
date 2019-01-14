@@ -13,8 +13,14 @@ export default {
 }
 </script>
 
-<style>
-  .menu-item {
-    font-size: 28px;
-  }
+<style scoped>
+div.menu-item {
+    font-size: 48px;
+    color: black;
+    text-decoration: none;
+}
+div.menu-item:hover {
+  cursor: pointer;
+  color: red;
+}
 </style>

@@ -1,12 +1,13 @@
 <template>
   <div>
     <ul class='menu-list'>
-      <li v-for='option in menu'
-         :key="option.id">
-         <router-link :to='option.path'>
+         <router-link 
+         v-for='option in menu'
+         :key="option.id"
+         :to='option.path'
+         tag='li'>
            <Item :opt='option'></Item>
          </router-link>     
-         </li>
     </ul>
   </div>
 </template>
@@ -28,12 +29,11 @@ export default {
 </script>
 
 <style>
+
 .menu-list {
   list-style: none;
+  text-decoration: none;
+  color: black;
 }
 
-.menu-list>li:hover {
-  color: red;
-  cursor: pointer;
-}
 </style>

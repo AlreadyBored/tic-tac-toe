@@ -3,11 +3,12 @@
     <template v-if='sideChosen'>
     <div>
       <ul class='stats'>
-        <li><div>Turns made: {{turn}}</div></li>
+        <li><div class='stats-turn'>Turns made: {{turn}}</div></li>
         <li><Timer :time='time'
-           :end="endTimer"
-           @timer-tick='countTime'></Timer></li>
-        <li><div>{{currentPlayer}} turns!</div></li>
+                   :end="endTimer"
+                   @timer-tick='countTime'
+                   class="stats-timer"></Timer></li>
+        <li><div class='stats-player'>{{currentPlayer}} turns!</div></li>
       </ul>
       </div>
     
@@ -18,7 +19,8 @@
           <td v-for="(cell, indexCell) in row"
               @click='drawSymbol(indexRow, indexCell)' 
               :key="`c${indexCell}`"
-              class='my-cell'>
+              class='my-cell'
+              :style='settingsSymbol(indexRow, indexCell)'>
               {{figure(indexRow, indexCell)}}
               </td>
         </tr>
@@ -30,7 +32,10 @@
           @click="chooseSide"> 
       {{currentPlayer}} choose your side!
       <hr>
-      <span class="symbol-cross">X</span><span class='symbol-circle'>O</span>
+      <span class="symbol-cross"
+            :style="this.xClass">X</span>
+      <span class='symbol-circle'
+            :style='this.oClass'>O</span>
       </div>  
   </div>
 </template>
@@ -57,6 +62,10 @@ export default {
       initialWinConditions: 'initialWinConditions',
       winner: 'winner',
       players: 'players'
+    }),
+    ...mapGetters('settings', {
+      xClass: 'xView',
+      oClass: 'oView'
     }),
     currentPlayer() {
       if(this.turn % 2 === 0) {
@@ -112,6 +121,23 @@ export default {
          this.currentState[params[4]][params[5]]
         ];
       return boolCondition;
+      }
+    },
+    settingsSymbol() {
+      return (row, cell) => {
+        switch(this.currentState[row][cell]) {
+          case null:
+          return false;
+          break;
+
+          case true:
+          return this.xClass;
+          break;
+
+          case false:
+          return this.oClass;
+          break;
+        }
       }
     }
   },
@@ -215,7 +241,6 @@ export default {
           const bool = this.transformedCondition(element);
           if (bool.every(x => x === false)) {
             this.gameFinished( {
-              winner: this.currentPlayer,
               time: this.time,
               turns: this.turn
             });
@@ -281,14 +306,20 @@ export default {
   user-select: none;
 }
 .my-cell {
-  height: 90px;
-  width: 60px;
+  vertical-align: middle !important;
+  font-size: 32px;
+  height: 100px;
+  width: 80px;
 }
 .symbol-cross {
   cursor: pointer;
   text-align: left;
   font-size: 48px;
   color: red;
+}
+
+.stats-timer {
+
 }
 
 .symbol-circle {

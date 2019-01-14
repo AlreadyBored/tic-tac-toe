@@ -70,8 +70,12 @@ export default {
     actions: {
         gameFinished(store, options) {
             let winner;
-            (options.turns - 1) % 2 === 0 ? winner = store.getters.players[0].name
-            : winner = store.getters.players[1].name
+            if(options.winner) {
+                winner = options.winner;
+            } else {
+                (options.turns - 1) % 2 === 0 ? winner = store.getters.players[0].name
+            : winner = store.getters.players[1].name;
+            }            
             store.commit('setWinner', winner);
             store.commit('setTime', options.time);
             store.commit('setTurns', options.turns);

@@ -2,7 +2,7 @@
 <div>
 <span class='error'>{{errorMsg}}</span>
 <br>
-<label>
+<label class='name-field'>
   {{dictionary[cnt]}} player name:
   <br>
   <input v-model="name"
@@ -74,6 +74,9 @@ export default {
 <style>
 .error {
   color: red;
-  font-size: 16px;
+  font-size: 24px;
+}
+.name-field {
+  font-size: 18px;
 }
 </style>
