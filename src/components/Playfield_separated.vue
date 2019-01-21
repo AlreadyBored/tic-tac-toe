@@ -317,11 +317,6 @@ export default {
   font-size: 48px;
   color: red;
 }
-
-.stats-timer {
-
-}
-
 .symbol-circle {
   cursor: pointer;
   text-align: right;

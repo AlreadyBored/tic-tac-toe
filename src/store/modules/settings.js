@@ -16,15 +16,27 @@ export default {
                     value: 'green'
                 },
                 {
+                    name: 'Black',
+                    value: 'black'
+                }
+            ],
+            nought: [
+                {
                     name: 'Red',
                     value: 'red'
                 },
-            ],
-            nought: [
-                {red: 'Red'},
-                {blue: 'Blue'},
-                {green: 'Green'},
-                {black: 'Black'}
+                {
+                    name: 'Blue',
+                    value: 'blue'
+                },
+                {
+                    name: 'Green',
+                    value: 'green'
+                },
+                {
+                    name: 'Black',
+                    value: 'black'
+                }
             ],
         },
         xView: {
@@ -40,22 +52,40 @@ export default {
         },
         oView(state) {
             return state.oView;
-        }
+        },
+        possibleColors(state) {
+            return state.possibleColors;
+        },
+        colorsArr(state) {
+            const arrCross = [],
+            arrNought = [];
+
+            for(let i = 0; i < state.possibleColors.cross.length; i++) {
+                   arrCross.push(state.possibleColors.cross[i].value);
+            }
+
+            for(let i = 0; i < state.possibleColors.nought.length; i++) {
+                arrNought.push(state.possibleColors.nought[i].value);
+            }
+            return {
+                cross: arrCross,
+                nought: arrNought
+            }
+        } 
+        
     },
     mutations: {
-        set_X(state) {
-
+        set_X(state, color) {
+            state.xView.color = color;
         },
-        set_O(state) {
-
+        set_O(state, color) {
+            state.oView.color = color;
         }
     },
     actions: {
-        getX(store, options) {
-
-        },
-        getO(store, options) {
-
+        getSettings(store, options) {
+            store.commit('set_X', options.colors.colorX);
+            store.commit('set_O', options.colors.colorO);           
         }
     }
 };

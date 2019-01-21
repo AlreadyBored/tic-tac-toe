@@ -3,11 +3,6 @@ export default {
     state: {
         options: [
             {
-                value: 'START',
-                path: '/auth',
-                id: 1
-            },
-            {
                 value: 'OPTIONS',
                 path: '/settings',
                 id: 2
@@ -17,7 +12,6 @@ export default {
                 path: '/intro',
                 id: 3
             }
-
         ]
     },
     getters: {

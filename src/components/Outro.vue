@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class='outro-slidescreen'>
     {{currentSlide}}
 </div>
 </template>
@@ -48,7 +48,6 @@ export default {
     }
   },
   mounted() {
-    
     this.slides[this.slides.indexOf('PLACEHOLDER')] = this.winner;
     this.slideshow();
   }
@@ -56,4 +55,9 @@ export default {
 </script>
 
 <style>
+.outro-slidescreen {
+  font-size: 64px;
+  color: red;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
 </style>

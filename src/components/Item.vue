@@ -13,7 +13,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 div.menu-item {
     font-size: 48px;
     color: black;

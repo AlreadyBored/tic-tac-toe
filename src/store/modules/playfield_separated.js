@@ -28,6 +28,10 @@ export default {
             [0,0,1,1,2,2],
             [2,0,1,1,0,2] 
         ],
+        score: {
+            1: 0,
+            2: 0
+        },
         time: null,
         winner: null,
         turns: null,
@@ -51,6 +55,9 @@ export default {
         },
         players(state) {
            return state.players; 
+        },
+        score(state) {
+            return state.score;
         }
     },
     mutations: {      
@@ -65,6 +72,11 @@ export default {
         },
         addPlayer(state, player) {
             state.players.push(player);
+        },
+        restartGame(state) {
+            state.time = null;
+            state.winner = null;
+            state.turns = null;
         }
     },
     actions: {
@@ -82,6 +94,9 @@ export default {
         },
         getPlayer(store, player) {
             store.commit('addPlayer', player);
+        },
+        restartGame(store) {
+            store.commit('restartGame');
         }
     }
 };
