@@ -1,12 +1,8 @@
 <template>
   <div>
     <ul class='menu-list'>
-         <router-link :to='startLink'
-                      tag='li'>
-        <div class='menu-item'>START</div>
-         </router-link>
          <router-link 
-         v-for='option in additionalMenu'
+         v-for='option in menu'
          :key="option.id"
          :to='option.path'
          tag='li'>
@@ -23,7 +19,7 @@ import Item from './Item.vue';
 export default {
   computed: {
     ...mapGetters('menu', {
-      additionalMenu: 'options'
+      menu: 'options'
     }),
     ...mapGetters('state', {
       runsCnt: 'runsCnt'

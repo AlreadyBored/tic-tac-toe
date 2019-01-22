@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex';
 export default {
   data() {
     return {
@@ -62,11 +63,7 @@ export default {
       this.cnt++;
       this.name = '';
       this.errorMsg = '';
-      
     }
-  },
-  computed: {
-   
   }
 }
 </script>

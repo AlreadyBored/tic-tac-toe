@@ -11,8 +11,6 @@ import Results from './components/Results.vue';
 import Settings from './components/Settings.vue';
 import Authorization from './components/Authorization.vue';
 
-/* import {store} from './store'; */
-
 const routes = [
     {
         path: '',
