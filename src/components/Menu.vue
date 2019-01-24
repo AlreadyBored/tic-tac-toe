@@ -24,13 +24,16 @@ export default {
     ...mapGetters('state', {
       runsCnt: 'runsCnt'
     }),
-    startLink() {
+    routeName() {
       if(this.runsCnt === 0) {
-        return '/auth';
+        return 'authorization';
       } else {
-        return '/game';
+        return 'game';
       }
     }
+  },
+  beforeRouteLeave (to, from, next) {
+      next();
   },
   components: {
     Item

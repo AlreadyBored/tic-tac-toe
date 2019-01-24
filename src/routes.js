@@ -29,22 +29,27 @@ const routes = [
         component: Authorization
     },
     {
+        name: 'menu',
         path: '/menu',
         component: Menu
     },
     {
+        name: 'game',
         path: '/game',
         component: Playfield
     },
     {
+        name: 'settings',
         path: '/settings',
         component: Settings
     },
     {
+        name: 'outro',
         path: '/end',
         component: Outro
     },
     {
+        name: 'results',
         path: '/results',
         component: Results
     }
