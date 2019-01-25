@@ -32,9 +32,11 @@ export default {
       }
     }
   },
-  beforeRouteLeave (to, from, next) {
-      next();
-  },
+  /* beforeRouteLeave (to, from, next) {
+      next({
+        name: 'game'
+      });
+  }, */
   components: {
     Item
   }

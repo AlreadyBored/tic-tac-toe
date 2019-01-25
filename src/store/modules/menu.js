@@ -4,7 +4,7 @@ export default {
         options: [
             {
                 value: 'START',
-                path: '/auth',
+                path: '/choice',
                 id: 1
             },
             {

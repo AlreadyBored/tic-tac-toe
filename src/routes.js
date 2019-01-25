@@ -11,6 +11,8 @@ import Results from './components/Results.vue';
 import Settings from './components/Settings.vue';
 import Authorization from './components/Authorization.vue';
 
+import {store} from './store';
+
 const routes = [
     {
         path: '',
@@ -27,6 +29,21 @@ const routes = [
         name: 'authorization',
         path: '/auth',
         component: Authorization
+    },
+    {
+        name: 'choice',
+        path: '/choice',
+        redirect: to => {
+            if(store.getters['state/runsCnt'] === 0) {
+                return {
+                    name: 'authorization'
+                } 
+            } else {
+                return {
+                    name: 'game'
+                }
+            }
+        }
     },
     {
         name: 'menu',
