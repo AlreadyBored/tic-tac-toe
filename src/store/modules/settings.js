@@ -44,7 +44,9 @@ export default {
         },
         oView: {
             color: 'black'
-        }
+        },
+        intMode: false,
+        drawMode: false
     },
     getters: {
         xView(state) {
@@ -53,8 +55,24 @@ export default {
         oView(state) {
             return state.oView;
         },
+        intMode(state) {
+            return state.intMode;
+        },
+        drawMode(state) {
+            return state.drawMode;
+        },
         possibleColors(state) {
             return state.possibleColors;
+        },
+        settings(state) {
+            return {
+                colX: state.xView.color,
+                colO: state.oView.color,
+                flags: {
+                    int: state.intMode,
+                    draw: state.drawMode
+                }
+            }
         },
         colorsArr(state) {
             const arrCross = [],
@@ -80,12 +98,17 @@ export default {
         },
         set_O(state, color) {
             state.oView.color = color;
+        },
+        set_modes(state, modes) {
+            state.drawMode = modes.intMode;
+            state.intMode = modes.drawMode;
         }
     },
     actions: {
         getSettings(store, options) {
             store.commit('set_X', options.colors.colorX);
-            store.commit('set_O', options.colors.colorO);           
+            store.commit('set_O', options.colors.colorO);
+            store.commit('set_modes', options.flags);           
         }
     }
 };

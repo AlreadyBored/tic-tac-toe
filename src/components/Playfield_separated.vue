@@ -65,7 +65,9 @@ export default {
     }),
     ...mapGetters('settings', {
       xClass: 'xView',
-      oClass: 'oView'
+      oClass: 'oView',
+      intellectualComputing: 'intMode',
+      endOnDraw: 'drawMode'
     }),
     currentPlayer() {
       if(this.turn % 2 === 0) {
@@ -234,7 +236,7 @@ export default {
           }
         });
         /* If cleaning of list of possible winning combinations needed */
-        this.deleteDeadlocks();
+        if(this.intellectualComputing) this.deleteDeadlocks();        
       }
       if (this.chosenSymbol === "X") {
         conditions.forEach(element => {
@@ -247,7 +249,7 @@ export default {
           }
         });
         /* If cleaning of list of possible winning combinations needed */
-        this.deleteDeadlocks();
+        if(this.intellectualComputing) this.deleteDeadlocks();   
       }
     },
     /* Currently works in intellectual mode: game will be finished with DRAW result
@@ -264,7 +266,8 @@ export default {
     },
     turnFinished() {
       if (this.turn >= 3) this.checkWinConditions();
-      if (this.turn >= 7) this.checkForDraw();
+      if(this.endOnDraw) this.checkForDraw();
+      if (this.turn >= 9) this.checkForDraw();
     },
     switchSymbol() {
       this.chosenSymbol === "O"

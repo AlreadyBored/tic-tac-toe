@@ -22,6 +22,16 @@
         </option>
       </select>
     </label>
+    <br>
+    <label>
+      Enable intellectual mode
+        <input type="checkbox" v-model="settings.flags.intMode">
+    </label>
+    <br>
+    <label>
+      End game on draw result
+        <input type="checkbox" v-model="settings.flags.drawMode">
+    </label>
     <br>    
     <button @click='quitSave'
             class="btn btn-success">Save & quit</button>
@@ -40,6 +50,10 @@ export default {
         colors: {
           colorX: '',
           colorO: ''
+        },
+        flags: {
+          intMode: '',
+          drawMode: ''
         }
       },
       errorDur: 1500,
@@ -50,6 +64,12 @@ export default {
     ...mapActions('settings', {
       sendSettings: 'getSettings'
     }),
+    syncSettings() {
+      this.settings.colors.colorX = this.defaultSettings.colX;
+      this.settings.colors.colorO = this.defaultSettings.colO;
+      this.settings.flags.intMode = this.defaultSettings.flags.int;
+      this.settings.flags.drawMode = this.defaultSettings.flags.draw;
+    },
     hideErrorDeff() {
       setTimeout(() => {
         this.errorMsg = ''
@@ -74,20 +94,23 @@ export default {
         this.hideErrorDeff();
         return false;
       }
-      if(this.settings.colors.colorX === this.settings.colors.colorO) {
-        this.errorMsg = 'Symbols cannot both have same color, choose different!';
+      if(colorX === colorO && colorX !== 'black') {
+        this.errorMsg = 'Symbols cannot both have same color except black, choose different!';
         this.hideErrorDeff();
         return false;
       }
-
       return true;
     }
   },
   computed: {
     ...mapGetters('settings', {
       possibleColors: 'possibleColors',
-      colorsArr: 'colorsArr'
+      colorsArr: 'colorsArr',
+      defaultSettings: 'settings'
     })
+  },
+  mounted() {
+    this.syncSettings();
   }
 }
 </script>
