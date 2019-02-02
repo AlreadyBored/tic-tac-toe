@@ -1,7 +1,25 @@
+import axios from 'axios';
 export default {
     namespaced: true,
     state: {
         initialState: {
+            0: {
+                0: null,
+                1: null,
+                2: null
+            },
+            1: {
+                0: null,
+                1: null,
+                2: null
+            },
+            2: {
+                0: null,
+                1: null,
+                2: null
+            }
+        },
+        currentState: {
             0: {
                 0: null,
                 1: null,
@@ -47,6 +65,9 @@ export default {
         initialState(state) {
             return state.initialState;
         },
+        currentState(state) {
+            return state.currentState;
+        },
         initialWinConditions(state) {
             return state.initialWinConditions;
         },
@@ -77,6 +98,9 @@ export default {
             state.time = null;
             state.winner = null;
             state.turns = null;
+        },
+        set_state(state, resObj) {
+            state.currentState[resObj.row][resObj.cell] = resObj.symbol;
         }
     },
     actions: {
@@ -97,6 +121,20 @@ export default {
         },
         restartGame(store) {
             store.commit('restartGame');
+        },
+        getSymbol(store, payload) {
+            axios({
+                method: 'post',
+                url: 'http://127.0.0.1:1337',
+                data: {
+                    row: payload.row,
+                    cell: payload.cell,
+                    symbol: payload.symbol
+                }
+            })
+            .then(response => {
+                store.commit('set_state', JSON.parse(response.data.split('???')[0]));
+            })
         }
     }
 };

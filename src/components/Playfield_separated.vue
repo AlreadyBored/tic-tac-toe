@@ -42,6 +42,7 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import axios from 'axios';
 import Timer from "./Timer.vue";
 
 export default {
@@ -50,7 +51,7 @@ export default {
       chosenSymbol: null,
       endTimer: null,
       actualWinConditions: [],
-      currentState: null,
+      /* currentState: null, */
       time: 0,
       turn: 0,
       sideChosen: false
@@ -59,6 +60,7 @@ export default {
   computed: {
     ...mapGetters("playfield", {
       initialState: "initialState",
+      currentState: 'currentState',
       initialWinConditions: 'initialWinConditions',
       winner: 'winner',
       players: 'players'
@@ -145,22 +147,33 @@ export default {
   },
   methods: {
     ...mapActions('playfield', {
+      getSymbol: 'getSymbol',
       gameFinished: 'gameFinished',
     }),
     countTime() {
       this.time++;
     },
     startGame() {
-      this.currentState = JSON.parse(JSON.stringify(this.initialState));
+      /* this.currentState = JSON.parse(JSON.stringify(this.initialState)); */
       this.actualWinConditions = JSON.parse(JSON.stringify(this.initialWinConditions));
     },
     drawX(adress) {
-      this.currentState[adress.row][adress.cell] = true;
+      /* this.currentState[adress.row][adress.cell] = true; */
+      this.getSymbol({
+        cell: adress.cell,
+        row: adress.row,
+        symbol: true
+      });
       this.countTurn();
       this.switchSymbol();
     },
     drawO(adress) {
-      this.currentState[adress.row][adress.cell] = false;
+      /* this.currentState[adress.row][adress.cell] = false; */
+      this.getSymbol({
+        cell: adress.cell,
+        row: adress.row,
+        symbol: false
+      });
       this.countTurn();
       this.switchSymbol();      
     },
