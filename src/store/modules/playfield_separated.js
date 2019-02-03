@@ -70,6 +70,9 @@ export default {
         setWinner(state, winner) {
             state.winner = winner;
         },
+        set_score(state, payload) {
+            state.score[payload]++;
+        },
         addPlayer(state, player) {
             state.players.push(player);
         },
@@ -85,8 +88,13 @@ export default {
             if(options.winner) {
                 winner = options.winner;
             } else {
-                (options.turns - 1) % 2 === 0 ? winner = store.getters.players[0].name
-            : winner = store.getters.players[1].name;
+                if((options.turns - 1) % 2 === 0) {
+                    winner = store.getters.players[0].name
+                    store.commit ('set_score', 1);
+                } else {
+                    winner = store.getters.players[1].name;
+                    store.commit ('set_score', 2);
+                }
             }            
             store.commit('setWinner', winner);
             store.commit('setTime', options.time);

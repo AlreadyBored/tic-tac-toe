@@ -9,6 +9,7 @@
                    @timer-tick='countTime'
                    class="stats-timer"></Timer></li>
         <li><div class='stats-player'><span :style='nickView'>{{currentPlayer}}</span> turns!</div></li>
+        <li><div class='stats-player'>Current symbol is <span :style='symbolHeader'>{{chosenSymbol}}</span></div></li>
       </ul>
       </div>
     
@@ -70,6 +71,20 @@ export default {
       intellectualComputing: 'intMode',
       endOnDraw: 'drawMode'
     }),
+    symbolHeader() {
+      switch (this.chosenSymbol) {
+        case 'X':
+        return this.xClass;
+        break;
+
+        case 'O':
+        return this.oClass;
+        break;
+
+        default:
+        return 'Symbol not chosen yet';
+      }
+    },
     currentPlayer() {
       if(this.turn % 2 === 0) {
         return this.players[0].name;
