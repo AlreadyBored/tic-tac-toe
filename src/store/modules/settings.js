@@ -38,11 +38,55 @@ export default {
                     value: 'black'
                 }
             ],
+            nick: [
+                {
+                    name: 'Red',
+                    value: 'red'
+                },
+                {
+                    name: 'Orange',
+                    value: 'orange'
+                },
+                {
+                    name: 'Cyan',
+                    value: 'cyan'
+                },
+                {
+                    name: 'Blue',
+                    value: 'blue'
+                },
+                {
+                    name: 'Green',
+                    value: 'green'
+                },
+                {
+                    name: 'Black',
+                    value: 'black'
+                }
+            ],
         },
+        possibleTextSize: [
+            {
+                name: '12 pixels',
+                value: '12px'
+            },
+            {
+                name: '14 pixels',
+                value: '14px'
+            },
+            {
+                name: '16 pixels',
+                value: '16px'
+            }
+        ],
         xView: {
             color: 'black'
         },
         oView: {
+            color: 'black'
+        },
+        nicknameView: {
+            'font-size': '16px',
             color: 'black'
         },
         intMode: false,
@@ -55,6 +99,9 @@ export default {
         oView(state) {
             return state.oView;
         },
+        nicknameView(state) {
+            return state.nicknameView;
+        },
         intMode(state) {
             return state.intMode;
         },
@@ -64,6 +111,9 @@ export default {
         possibleColors(state) {
             return state.possibleColors;
         },
+        possibleTextSize(state) {
+            return state.possibleTextSize;
+        },
         settings(state) {
             return {
                 colX: state.xView.color,
@@ -71,6 +121,10 @@ export default {
                 flags: {
                     int: state.intMode,
                     draw: state.drawMode
+                },
+                nick: {
+                    'font-size': state.nicknameView['font-size'],
+                    color: state.nicknameView.color,
                 }
             }
         },
@@ -102,13 +156,18 @@ export default {
         set_modes(state, modes) {
             state.drawMode = modes.intMode;
             state.intMode = modes.drawMode;
+        },
+        set_nick(state, nick) {
+            state.nicknameView['font-size'] = nick.size;
+            state.nicknameView.color = nick.color;
         }
     },
     actions: {
         getSettings(store, options) {
             store.commit('set_X', options.colors.colorX);
             store.commit('set_O', options.colors.colorO);
-            store.commit('set_modes', options.flags);           
+            store.commit('set_modes', options.flags);
+            store.commit('set_nick', options.nick);           
         }
     }
 };

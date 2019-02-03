@@ -21,9 +21,9 @@ export default {
   data() {
     return {
       slides: [
-        'CONGRATULATIONS!',
+        'GAME FINISHED!',
         'PLACEHOLDER',
-        'WIN',
+        'WINS',
         'THE',
         'GAME!',      
       ],

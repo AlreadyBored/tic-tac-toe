@@ -24,6 +24,26 @@
     </label>
     <br>
     <label>
+      Nickname color
+      <select v-model="settings.nick.color">
+        <option v-for="(item, index) in possibleColors.nick" 
+                :value="item.value"
+                :key="'c' + index">{{item.name}}
+        </option>
+      </select>    
+    </label>
+    <br>
+    <label>
+      Nickname font size
+      <select v-model="settings.nick['font-size']">
+        <option v-for="(item, index) in possibleTextSize" 
+                :value="item.value"
+                :key="'c' + index">{{item.name}}
+        </option>
+      </select>    
+    </label>
+    <br>
+    <label>
       Enable intellectual mode
         <input type="checkbox" v-model="settings.flags.intMode">
     </label>
@@ -54,6 +74,10 @@ export default {
         flags: {
           intMode: '',
           drawMode: ''
+        },
+        nick: {
+          size: '',
+          color: ''
         }
       },
       errorDur: 1500,
@@ -69,6 +93,8 @@ export default {
       this.settings.colors.colorO = this.defaultSettings.colO;
       this.settings.flags.intMode = this.defaultSettings.flags.int;
       this.settings.flags.drawMode = this.defaultSettings.flags.draw;
+      this.settings.nick['font-size'] = this.defaultSettings.nick['font-size'];
+      this.settings.nick.color = this.defaultSettings.nick.color;
     },
     hideErrorDeff() {
       setTimeout(() => {
@@ -105,6 +131,7 @@ export default {
   computed: {
     ...mapGetters('settings', {
       possibleColors: 'possibleColors',
+      possibleTextSize: 'possibleTextSize',
       colorsArr: 'colorsArr',
       defaultSettings: 'settings'
     })

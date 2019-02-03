@@ -8,7 +8,7 @@
                    :end="endTimer"
                    @timer-tick='countTime'
                    class="stats-timer"></Timer></li>
-        <li><div class='stats-player'>{{currentPlayer}} turns!</div></li>
+        <li><div class='stats-player'><span :style='nickView'>{{currentPlayer}}</span> turns!</div></li>
       </ul>
       </div>
     
@@ -30,7 +30,7 @@
     <div v-if="!sideChosen"
          class='prompt-symbol' 
           @click="chooseSide"> 
-      {{currentPlayer}} choose your side!
+      <span :style='nickView'>{{currentPlayer}}</span> choose your side!
       <hr>
       <span class="symbol-cross"
             :style="this.xClass">X</span>
@@ -66,6 +66,7 @@ export default {
     ...mapGetters('settings', {
       xClass: 'xView',
       oClass: 'oView',
+      nickView: 'nicknameView',
       intellectualComputing: 'intMode',
       endOnDraw: 'drawMode'
     }),
@@ -300,7 +301,6 @@ export default {
 </script>
 
 <style>
-
 .stats {
   list-style: none;
 }
