@@ -44,7 +44,6 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import Timer from "./Timer.vue";
-
 export default {
   data() {
     return {
@@ -76,11 +75,9 @@ export default {
         case 'X':
         return this.xClass;
         break;
-
         case 'O':
         return this.oClass;
         break;
-
         default:
         return 'Symbol not chosen yet';
       }
@@ -98,15 +95,12 @@ export default {
           case null:
             return "";
             break;
-
           case true:
             return "X";
             break;
-
           case false:
             return "O";
             break;
-
           default:
             throw new Error("Wrong cell adress and/or value");
         }
@@ -147,11 +141,9 @@ export default {
           case null:
           return false;
           break;
-
           case true:
           return this.xClass;
           break;
-
           case false:
           return this.oClass;
           break;
@@ -210,14 +202,12 @@ export default {
             cell: options.cell
           });
           break;
-
         case "O":
           this.drawO({
             row: options.row,
             cell: options.cell
           });
           break;
-
         default:
           throw new Error(
             `Wrong type of symbol was sent! - ${
