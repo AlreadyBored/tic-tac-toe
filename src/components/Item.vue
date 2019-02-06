@@ -15,7 +15,7 @@ export default {
 
 <style>
 div.menu-item {
-    font-size: 48px;
+    font-size: 64px;
     color: black;
     text-decoration: none;
 }

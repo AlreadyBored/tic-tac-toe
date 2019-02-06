@@ -67,16 +67,16 @@ export default {
         },
         possibleTextSize: [
             {
-                name: '12 pixels',
-                value: '12px'
+                name: '32 pixels',
+                value: '32px'
             },
             {
-                name: '14 pixels',
-                value: '14px'
+                name: '38 pixels',
+                value: '38px'
             },
             {
-                name: '16 pixels',
-                value: '16px'
+                name: '42 pixels',
+                value: '42px'
             }
         ],
         xView: {
@@ -86,7 +86,7 @@ export default {
             color: 'black'
         },
         nicknameView: {
-            'font-size': '16px',
+            'font-size': '32px',
             color: 'black'
         },
         intMode: false,
@@ -158,7 +158,7 @@ export default {
             state.intMode = modes.drawMode;
         },
         set_nick(state, nick) {
-            state.nicknameView['font-size'] = nick.size;
+            state.nicknameView['font-size'] = nick['font-size'];
             state.nicknameView.color = nick.color;
         }
     },

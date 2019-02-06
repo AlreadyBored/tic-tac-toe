@@ -16,8 +16,10 @@ export default {
 
 <style>
 #app {
-  border: 2px solid black;
-  width: 60%;
+  user-select: none;
+  border: 10px solid chartreuse;
+  border-radius: 10%;
+  width: 40%;
   height: 50%;
   margin: 60px auto 0 auto;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;

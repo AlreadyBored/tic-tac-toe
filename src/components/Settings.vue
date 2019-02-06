@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div>Settings</div>
+    <div class='settings-header'>Settings</div>
     <div class='error'>{{errorMsg}}</div>
     <br>
-    <label>
+    <label class='setting-label'>
       Color of X
       <select v-model="settings.colors.colorX">
         <option v-for="(item, index) in possibleColors.cross" 
@@ -13,7 +13,7 @@
       </select>
     </label>
     <br>
-    <label>
+    <label class='setting-label'>
       Color of O
       <select v-model="settings.colors.colorO">
         <option v-for="(item, index) in possibleColors.nought" 
@@ -23,7 +23,7 @@
       </select>
     </label>
     <br>
-    <label>
+    <label class='setting-label'>
       Nickname color
       <select v-model="settings.nick.color">
         <option v-for="(item, index) in possibleColors.nick" 
@@ -33,7 +33,7 @@
       </select>    
     </label>
     <br>
-    <label>
+    <label class='setting-label'>
       Nickname font size
       <select v-model="settings.nick['font-size']">
         <option v-for="(item, index) in possibleTextSize" 
@@ -43,20 +43,20 @@
       </select>    
     </label>
     <br>
-    <label>
+    <label class='setting-label'>
       Enable intellectual mode
         <input type="checkbox" v-model="settings.flags.intMode">
     </label>
     <br>
-    <label>
+    <label class='setting-label'>
       End game on draw result
         <input type="checkbox" v-model="settings.flags.drawMode">
     </label>
     <br>    
-    <button @click='quitSave'
-            class="btn btn-success">Save & quit</button>
-    <button @click='quit'
-            class="btn btn-warning">Quit with saving</button>
+    <div @click='quitSave'
+            class="btn-start">Save & quit</div>
+    <div @click='quit'
+            class="btn-start">Quit with saving</div>
   </div>
 </template>
 
@@ -76,7 +76,7 @@ export default {
           drawMode: ''
         },
         nick: {
-          size: '',
+          'font-size': '',
           color: ''
         }
       },
@@ -143,9 +143,30 @@ export default {
 </script>
 
 <style>
+.settings-header {
+  font-size: 64px;
+  color: black;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.setting-label {
+  font-size: 32px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  cursor: pointer;
+}
+
+.setting-label:hover {
+  opacity: 0.5;
+}
+
 .error {
   color: red;
   font-size: 24px;
   height: 45px;
+}
+.btn-start {
+  font-size: 64px;
+  color: green;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  cursor: pointer;
 }
 </style>

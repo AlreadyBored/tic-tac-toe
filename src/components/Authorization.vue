@@ -4,16 +4,17 @@
 <br>
 <label class='name-field'>
   {{dictionary[cnt]}} player name:
-  <br>
-  <input v-model="name"
+  <br><br>
+  <input autofocus
+         v-model="name"
          @keyup.enter="submitNickname"
          type="text"
          maxlength="10" 
          placeholder="Enter your nickname here">
 </label>
 <br>
-  <button @click='submitNickname'
-          class="btn btn-success">Submit</button>
+  <div @click='submitNickname'
+          class="btn-start">Submit</div>
 </div>
 </template>
 
@@ -73,7 +74,13 @@ export default {
   color: red;
   font-size: 24px;
 }
+.btn-start {
+  font-size: 64px;
+  color: green;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  cursor: pointer;
+}
 .name-field {
-  font-size: 18px;
+  font-size: 24px;
 }
 </style>

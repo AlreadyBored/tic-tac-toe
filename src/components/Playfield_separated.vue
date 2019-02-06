@@ -13,20 +13,19 @@
       </ul>
       </div>
     
-    <table class='table table-bordered playfield'>
-      <tbody>
-        <tr v-for="(row, indexRow) in currentState" 
-            :key="`r${indexRow}`">
-          <td v-for="(cell, indexCell) in row"
+    <div class='playfield'>
+        <div class='playfield-row'
+             v-for="(row, indexRow) in currentState" 
+             :key="`r${indexRow}`">
+          <div v-for="(cell, indexCell) in row"
               @click='drawSymbol(indexRow, indexCell)' 
               :key="`c${indexCell}`"
-              class='my-cell'
+              class='playfield-cell'
               :style='settingsSymbol(indexRow, indexCell)'>
               {{figure(indexRow, indexCell)}}
-              </td>
-        </tr>
-      </tbody>
-    </table>
+              </div>
+        </div>
+    </div>
     </template>
     <div v-if="!sideChosen"
          class='prompt-symbol' 
@@ -308,17 +307,39 @@ export default {
 <style>
 .stats {
   list-style: none;
+   font-size: 32px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 .playfield {
   cursor: pointer;
-  user-select: none;
+  display: flex;
+  flex-direction: column;
 }
-.my-cell {
-  vertical-align: middle !important;
+.playfield-row {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.playfield-cell {
+  margin: 5px;
+  padding-top: 25px;
+  font-size: 68px;
+  height: 150px;
+  width: 180px;
+  border: 4px solid red !important;
+  border-radius: 50%;
+}
+
+.playfield-cell:hover {
+  border: 4px solid grey !important;
+}
+
+.prompt-symbol {
   font-size: 32px;
-  height: 100px;
-  width: 80px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
+
 .symbol-cross {
   cursor: pointer;
   text-align: left;

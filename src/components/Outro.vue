@@ -56,7 +56,7 @@ export default {
 
 <style>
 .outro-slidescreen {
-  font-size: 64px;
+  font-size: 128px;
   color: red;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
