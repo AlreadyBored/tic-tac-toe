@@ -50,8 +50,7 @@ export default {
 
 <style>
 .intro-slidescreen {
-  min-width: fit-content;
-  font-size: 128px;
+  font-size: 100px;
   color: red;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
